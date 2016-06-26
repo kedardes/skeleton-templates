@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Current Weather</title>
+  <meta name="description" content="">
+  <meta name="author" content="Kedar Deshpande">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- CSS 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/github-prettify-theme.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="js/site.js"></script>
+
+  <script>
+    $(document).ready(function(){
+
+      $("#submit").on('click', function(){
+
+        //$('#json').val("");
+        var value=$('#jsonurl').val();
+        $('#img').show();
+
+        $.ajax({
+          url: value,
+          type: 'POST',
+          dataType: 'jsonp',
+          contentType: 'application/json',
+          data: {foo:"bar"},
+    
+          success: function (data) {
+            $('#img').hide();
+
+            var location = (data['timezone']).split('/');
+
+            var report = "It's " + data.currently['temperature'] + " degrees and " + data.currently['summary'] + " here in " + location[1] + '<br>' + "Feels like " + data.currently['apparentTemperature'] + " with a " + data.currently['precipProbability'] + " percent chance of rain.";
+            //alert(report);
+            
+            document.getElementById("report").innerHTML = report;
+
+            document.getElementById("json").innerHTML = JSON.stringify(data, undefined, 2);
+          },
+    
+          error: function(){
+            alert("Cannot get data");
+          }
+        });
+      });
+    });
+
+
+    $(document).ready(function(){
+
+      $("#labtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/34.0522342,-118.2436849");
+      });    
+      $("#chicagobtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/41.878114,-87.629798");
+      });
+      $("#nycbtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/40.7127837,-74.00594130000002");
+      });
+      $("#londonbtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/51.5073509,-0.12775829999998223");
+      });
+      $("#mumbaibtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/19.0759837,72.87765590000004");
+      });
+    });
+
+  </script>
+
+  <script type="text/javascript">
+    var opts = {
+  lines: 13 // The number of lines to draw
+, length: 28 // The length of each line
+, width: 9 // The line thickness
+, radius: 40 // The radius of the inner circle
+, scale: 0.25 // Scales overall size of the spinner
+, corners: 1 // Corner roundness (0..1)
+, color: '#000' // #rgb or #rrggbb or array of colors
+, opacity: 0.2 // Opacity of the lines
+, rotate: 0 // The rotation offset
+, direction: 1 // 1: clockwise, -1: counterclockwise
+, speed: 1 // Rounds per second
+, trail: 60 // Afterglow percentage
+, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+, zIndex: 2e9 // The z-index (defaults to 2000000000)
+, className: 'spinner' // The CSS class to assign to the spinner
+, top: '7%' // Top position relative to parent
+, left: '7%' // Left position relative to parent
+, shadow: false // Whether to render a shadow
+, hwaccel: false // Whether to use hardware acceleration
+, position: 'absolute' // Element positioning
+}
+var target = document.getElementById('foo')
+var spinner = new Spinner(opts).spin(target);
+  </script>
+
+
+</head>
+
+<body bgcolor="#E6E6FA">
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+  <br>
+    <div class="row">
+      <h5>Current Weather</h5>
+    </div>
+
+    <div class="navbar-spacer"></div>
+    
+    <nav class="navbar">
+      <div class="container">
+        <ul class="navbar-list">
+
+          <li class="navbar-item">
+            <a class="navbar-link" href="#" data-popover="#moreNavPopover">More</a>
+            <div id="moreNavPopover" class="popover">
+              <ul class="popover-list">
+                <li class="popover-item">
+                  <a class="popover-link" href="#">On Github</a>
+                </li>
+                <li class="popover-item">
+                  <a class="popover-link" href="#">Browsers</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="navbar-item"><a class="navbar-link" href="http://github.com/kedardes">Github</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <br><br>
+
+    <form id="form" action="" method="get">
+      <label for="jsonurl">Request</label>
+      <input class="u-full-width" type="text" placeholder="http://" id="jsonurl" />
+
+      <input id="labtn" type="button" name="labtn" value="LA">
+      <input id="chicagobtn" type="button" name="chicagobtn" value="Chicago">
+      <input id="nycbtn" type="button" name="nycbtn" value="NYC">
+      <input id="londonbtn" type="button" name="londonbtn" value="London">
+      <input id="mumbaibtn" type="button" name="mumbaibtn" value="Mumbai">
+
+      <br>
+      <input class="button-primary" id="submit" type="button" name="submit" value="submit">
+    </form>
+
+    <div id="foo"></div>
+
+    <img src="images/loading.gif" id="img" style="display:none"/ >
+
+    <h5 id="report"></h5>
+
+    <pre id="json"></pre>
+
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

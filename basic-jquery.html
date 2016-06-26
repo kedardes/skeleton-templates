@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>Basic JQuery</title>
+  <meta name="description" content="">
+  <meta name="author" content="Kedar Deshpande">
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!-- CSS 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function(){    
+      $("#btn").on('click', function(){
+        $("#txtfield").val("Yum");
+      });
+    });
+  </script>
+</head>
+
+<body bgcolor="#BBDEFB">
+<div class="container">
+  <br>
+  <input class="u-half-width" type="text" placeholder="Go" id="txtfield" />
+  <input class="button-primary" id="btn" type="button" name="btn" value="drink me">
+</div>
+
+</body>
+</html>
