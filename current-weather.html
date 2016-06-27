@@ -50,7 +50,9 @@
           success: function (data) {
             $('#img').hide();
 
-            //document.getElementById("weathericon").innerHTML = "";
+            document.getElementById("weathericon").innerHTML = "";
+            //$("#weathericon").html("");
+            //$("#weathericon").empty();
 
             var location = (data['timezone']).split('/');
             var location_clean = location[1].replace("_", " ");
@@ -65,7 +67,7 @@
             var temperature = Math.round(data.currently['temperature']);
             var summary = data.currently['summary'];
             var summary_clean = summary.toLowerCase();
-            var feelslike = data.currently['apparentTemperature'];
+            var feelslike = Math.round(data.currently['apparentTemperature']);
             var precip_probability = data.currently['precipProbability'];
 
 
@@ -74,7 +76,7 @@
             //document.getElementById("summary").innerHTML = summary;
             //document.getElementById("location").innerHTML = location_clean;
 
-            var report = "It's " + "<b>" + temperature + "</b>" + " degrees and " + "<b>" + summary_clean + "</b>" + " in " + "<b>" + location_clean + "</b>" + ".            Feels like " + feelslike + " with a " + precip_probability + " percent chance of rain.";
+            var report = "It's " + "<b>" + temperature + "</b>" + " degrees and " + "<b>" + summary_clean + "</b>" + " in " + "<b>" + location_clean + "</b>" + "." + "<br>" + " Feels like " + feelslike + " with a " + precip_probability + " percent chance of rain.";
             
             document.getElementById("report").innerHTML = report;
 
@@ -189,10 +191,9 @@
 
 
     <div class="row">
-    <div id="weathericon"><h6 id="report"></h6></div>
-          
-        </div>
-
+      <div id="weathericon"></div>
+      <h6 id="report"></h6>
+    </div>
 
     <pre id="json"></pre>
 
