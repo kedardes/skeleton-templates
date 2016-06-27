@@ -50,10 +50,31 @@
           success: function (data) {
             $('#img').hide();
 
-            var location = (data['timezone']).split('/');
+            //document.getElementById("weathericon").innerHTML = "";
 
-            var report = "It's " + data.currently['temperature'] + " degrees and " + data.currently['summary'] + " here in " + location[1] + '<br>' + "Feels like " + data.currently['apparentTemperature'] + " with a " + data.currently['precipProbability'] + " percent chance of rain.";
-            //alert(report);
+            var location = (data['timezone']).split('/');
+            var location_clean = location[1].replace("_", " ");
+
+            var weather_icon = data.currently['icon']
+            var icon_source = "images/weather/" + weather_icon + ".png"
+            
+            var icon_path = "<img id=\"wico\" src=" + icon_source + " height=\"36\" >";
+
+            $('#weathericon').prepend(icon_path)
+
+            var temperature = Math.round(data.currently['temperature']);
+            var summary = data.currently['summary'];
+            var summary_clean = summary.toLowerCase();
+            var feelslike = data.currently['apparentTemperature'];
+            var precip_probability = data.currently['precipProbability'];
+
+
+
+            //document.getElementById("temperature").innerHTML = temperature;
+            //document.getElementById("summary").innerHTML = summary;
+            //document.getElementById("location").innerHTML = location_clean;
+
+            var report = "It's " + "<b>" + temperature + "</b>" + " degrees and " + "<b>" + summary_clean + "</b>" + " in " + "<b>" + location_clean + "</b>" + ".            Feels like " + feelslike + " with a " + precip_probability + " percent chance of rain.";
             
             document.getElementById("report").innerHTML = report;
 
@@ -71,57 +92,36 @@
     $(document).ready(function(){
 
       $("#labtn").on('click', function(){
-        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/34.0522342,-118.2436849");
+
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/34.0522342,-118.2436849?exclude=[minutely,hourly,daily,flags,alerts]");
       });    
       $("#chicagobtn").on('click', function(){
-        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/41.878114,-87.629798");
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/41.878114,-87.629798?exclude=[minutely,hourly,daily,flags,alerts]");
       });
       $("#nycbtn").on('click', function(){
-        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/40.7127837,-74.00594130000002");
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/40.7127837,-74.00594130000002?exclude=[minutely,hourly,daily,flags,alerts]");
       });
       $("#londonbtn").on('click', function(){
-        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/51.5073509,-0.12775829999998223");
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/51.5073509,-0.12775829999998223?exclude=[minutely,hourly,daily,flags,alerts]");
+      });
+      $("#moscowbtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/55.755826,37.6173?exclude=[minutely,hourly,daily,flags,alerts]");
       });
       $("#mumbaibtn").on('click', function(){
-        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/19.0759837,72.87765590000004");
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/19.0759837,72.87765590000004?exclude=[minutely,hourly,daily,flags,alerts]");
+      });
+      $("#tokyobtn").on('click', function(){
+        $("#jsonurl").val("https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/35.6894875,139.69170639999993?exclude=[minutely,hourly,daily,flags,alerts]");
       });
     });
 
-  </script>
-
-  <script type="text/javascript">
-    var opts = {
-  lines: 13 // The number of lines to draw
-, length: 28 // The length of each line
-, width: 9 // The line thickness
-, radius: 40 // The radius of the inner circle
-, scale: 0.25 // Scales overall size of the spinner
-, corners: 1 // Corner roundness (0..1)
-, color: '#000' // #rgb or #rrggbb or array of colors
-, opacity: 0.2 // Opacity of the lines
-, rotate: 0 // The rotation offset
-, direction: 1 // 1: clockwise, -1: counterclockwise
-, speed: 1 // Rounds per second
-, trail: 60 // Afterglow percentage
-, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-, zIndex: 2e9 // The z-index (defaults to 2000000000)
-, className: 'spinner' // The CSS class to assign to the spinner
-, top: '7%' // Top position relative to parent
-, left: '7%' // Left position relative to parent
-, shadow: false // Whether to render a shadow
-, hwaccel: false // Whether to use hardware acceleration
-, position: 'absolute' // Element positioning
-}
-var target = document.getElementById('foo')
-var spinner = new Spinner(opts).spin(target);
   </script>
 
 
 </head>
 
 <body bgcolor="#E6E6FA">
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
   <div class="container">
   <br>
     <div class="row">
@@ -153,7 +153,7 @@ var spinner = new Spinner(opts).spin(target);
       </div>
     </nav>
 
-    <br><br>
+    <br>
 
     <form id="form" action="" method="get">
       <label for="jsonurl">Request</label>
@@ -163,24 +163,41 @@ var spinner = new Spinner(opts).spin(target);
       <input id="chicagobtn" type="button" name="chicagobtn" value="Chicago">
       <input id="nycbtn" type="button" name="nycbtn" value="NYC">
       <input id="londonbtn" type="button" name="londonbtn" value="London">
+      <input id="moscowbtn" type="button" name="moscowbtn" value="Moscow">
       <input id="mumbaibtn" type="button" name="mumbaibtn" value="Mumbai">
+      <input id="tokyobtn" type="button" name="tokyobtn" value="Tokyo">
 
       <br>
+      <label class="exclude-payload-label">
+        <input type="checkbox">
+        <span class="exclude-payload">Exclude Payload</span>
+      </label>
+
       <input class="button-primary" id="submit" type="button" name="submit" value="submit">
     </form>
 
-    <div id="foo"></div>
-
     <img src="images/loading.gif" id="img" style="display:none"/ >
+    <!--<div class="loader" id="img" style="display:none">Loading...</div>-->
 
-    <h5 id="report"></h5>
+    
+    
+
+
+
+
+
+
+
+    <div class="row">
+    <div id="weathericon"><h6 id="report"></h6></div>
+          
+        </div>
+
 
     <pre id="json"></pre>
 
   </div>
 
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
 
