@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- CSS 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/github-prettify-theme.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="js/site.js"></script>
+
+  <script>
+    $(document).ready(function(){
+
+        var value = "https://api.forecast.io/forecast/04d6389209233869473473fedfb66524/41.878114,-87.629798?exclude=[minutely,hourly,daily,flags,alerts]";
+
+        $('#img').show();
+
+        $.ajax({
+          url: value,
+          type: 'POST',
+          dataType: 'jsonp',
+          contentType: 'application/json',
+          data: {foo:"bar"},
+    
+          success: function (data) {
+            $('#img').hide();
+
+            document.getElementById("weathericon").innerHTML = "";
+
+            var location = (data['timezone']).split('/');
+            var location_clean = location[1].replace("_", " ");
+
+            var weather_icon = data.currently['icon']
+            var icon_source = "images/weather/" + weather_icon + ".png"
+            
+            var icon_path = "<img id=\"wico\" src=" + icon_source + " height=\"36\" >";
+
+            $('#weathericon').prepend(icon_path)
+
+            var temperature = Math.round(data.currently['temperature']);
+            var summary = data.currently['summary'];
+            var summary_clean = summary.toLowerCase();
+            var feelslike = Math.round(data.currently['apparentTemperature']);
+            var precip_probability = data.currently['precipProbability'];
+
+            var report = "It's " + "<b>" + temperature + "</b>" + " degrees and " + "<b>" + summary_clean + "</b>" + " in " + "<b>" + location_clean + "</b>" + "." + "<br>";
+            
+            document.getElementById("report").innerHTML = report;
+          },
+    
+          error: function(){
+            alert("Cannot get data");
+          }
+        });
+    });
+
+  </script>
+
+
+</head>
+
+<body bgcolor="#E6E6FA">
+  <div class="container">
+    <nav class="navbar" style="display:none"></nav>
+    <br>
+    <div class="row" >
+      <img src="images/loading.gif" id="img" style="display:none"/ >
+      <div id="weathericon"></div>
+      <h6 id="report"></h6>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
