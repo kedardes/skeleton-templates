@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>JSON GET</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- CSS 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/github-prettify-theme.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="js/site.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      // click on button submit
+      $("#submit").on('click', function(){
+
+        var value=$('#jsonurl').val();
+        //alert(value);
+
+        // send ajax
+        $.ajax({
+          url: value,
+          beforeSend: function(xhr) { 
+          xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password")); 
+          },
+          type: 'POST',
+          dataType: 'jsonp',
+          contentType: 'application/json',
+          data: {foo:"bar"},
+    
+          success: function (data) {
+            document.getElementById("json").innerHTML = JSON.stringify(data, undefined, 2);
+          },
+    
+          error: function(){
+            alert("Cannot get data");
+          }
+        });
+      });
+    });
+  </script>
+</head>
+
+<body bgcolor="#E6E6FA">
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+  <br>
+    <div class="row">
+      <h5>JSON Get</h5>
+    </div>
+
+    <div class="navbar-spacer"></div>
+    
+    <nav class="navbar">
+      <div class="container">
+        <ul class="navbar-list">
+          <li class="navbar-item"><a class="navbar-link" href="http://github.com/kedardes">Github</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="#examples">Examples</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <br>
+
+    <form id="form" action="" method="get">
+      <label for="jsonurl">URL</label>
+      <input class="u-full-width" type="text" placeholder="http://kedar.tumblr.com/api/read/json?callback=?" id="jsonurl" />
+      <input id="submit" type="button" name="submit" value="submit">
+    </form>
+
+    <pre id="json"></pre>
+
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
